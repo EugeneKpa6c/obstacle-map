@@ -1,0 +1,9 @@
+sphinx-autodoc-typehints
+sphinx-autobuild
+Sphinx
+opencv-python
+socket
+numpy
+torch
+matplotlib
+segment_anything

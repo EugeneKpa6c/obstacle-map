@@ -1,15 +1,3 @@
-# from sockets.service_om import ServiceOM
-# import time
-
-# def response_handler(response):
-#     print(f"Ответ от сервера: {response}")
-
-# if __name__ == '__main__':
-#     while True:
-#         client = ServiceOM(ip_="localhost", port_=5505)
-#         client.run_client(ip="localhost", port=5505, request="Тестовый запрос", response_handler=response_handler)
-#         time.sleep(5)
-
 import socket
 import numpy as np
 import cv2
