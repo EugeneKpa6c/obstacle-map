@@ -98,7 +98,7 @@ class ServiceOM(Service):
         :return: Ответ на запрос.
         :rtype: str
         """
-        if request.lower() == "get_string":
-            some_string = "i am string"
-            return some_string
+        if request.lower() == "get_map":
+            result_string = self._do_job()
+            return result_string
 
