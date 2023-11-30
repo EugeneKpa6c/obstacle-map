@@ -102,3 +102,14 @@ class ServiceOM(Service):
             result_string = self._do_job()
             return result_string
 
+
+'''
+Чтобы использовать полученный результат от get_map нужно:
+
+# Разделение строки на составляющие
+x_str, y_str, color_str = response.split('|||')
+
+x_plot = np.array(eval(x_str))
+y_plot = np.array(eval(y_str))
+color = np.array(eval(color_str))
+'''
