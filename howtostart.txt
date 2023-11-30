@@ -1,0 +1,2 @@
+C:\Users\ivanin.em\Desktop\obstacle map> python -m sockets.run
+C:\Users\ivanin.em\Desktop\obstacle map> python -m sockets.client

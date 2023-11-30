@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+
+<html lang="ru" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Sockets &#8212; документация Obstacle map </title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b3523f8e" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=039e1c02" />
+    <script src="_static/documentation_options.js?v=372fde1a"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/translations.js?v=29b1f277"></script>
+    <link rel="index" title="Алфавитный указатель" href="genindex.html" />
+    <link rel="search" title="Поиск" href="search.html" />
+    <link rel="prev" title="Документация по построению карты препятствий" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-sockets.service">
+<span id="sockets"></span><h1>Sockets<a class="headerlink" href="#module-sockets.service" title="Link to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="sockets.service.Service">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sockets.service.</span></span><span class="sig-name descname"><span class="pre">Service</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ip_</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port_</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_conn_</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sockets.service.Service" title="Link to this definition">¶</a></dt>
+<dd><p>Базовый класс для создания сервисов с сетевым функционалом.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Ip (str)<span class="colon">:</span></dt>
+<dd class="field-odd"><p>IP-адрес сервиса.</p>
+</dd>
+<dt class="field-even">Port (int)<span class="colon">:</span></dt>
+<dd class="field-even"><p>Порт сервиса.</p>
+</dd>
+<dt class="field-odd">N_conn (int)<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Количество подключений, которые может обрабатывать сервер.</p>
+</dd>
+<dt class="field-even">Timeout (int)<span class="colon">:</span></dt>
+<dd class="field-even"><p>Таймаут для сокета.</p>
+</dd>
+<dt class="field-odd">Need_job_break (bool)<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Флаг для остановки задачи сервиса.</p>
+</dd>
+<dt class="field-even">Need_job_pause (bool)<span class="colon">:</span></dt>
+<dd class="field-even"><p>Флаг для приостановки задачи сервиса.</p>
+</dd>
+<dt class="field-odd">Server_is_open (bool)<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Флаг, показывающий, открыт ли сервер.</p>
+</dd>
+<dt class="field-even">Need_restart (bool)<span class="colon">:</span></dt>
+<dd class="field-even"><p>Флаг для перезапуска сервиса.</p>
+</dd>
+<dt class="field-odd">Server (socket)<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Сокет сервера.</p>
+</dd>
+<dt class="field-even">Connected_clients (list)<span class="colon">:</span></dt>
+<dd class="field-even"><p>Список подключенных клиентов.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="sockets.service.Service.__manage_clients">
+<span class="sig-name descname"><span class="pre">__manage_clients</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sockets.service.Service.__manage_clients" title="Link to this definition">¶</a></dt>
+<dd><p>Приватный метод для управления подключенными клиентами.</p>
+<p>Управляет запросами клиентов, обрабатывает команды управления сервисом (включить, выключить, закрыть, перезапустить) и делегирует обработку остальных запросов через <cite>_request_handler</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sockets.service.Service.__recv_msg">
+<span class="sig-name descname"><span class="pre">__recv_msg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sock</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sockets.service.Service.__recv_msg" title="Link to this definition">¶</a></dt>
+<dd><p>Приватный метод для получения сообщения из сокета.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>sock</strong> (<em>socket</em>) – Сокет для чтения сообщения.</p>
+</dd>
+<dt class="field-even">Результат<span class="colon">:</span></dt>
+<dd class="field-even"><p>Прочитанное сообщение.</p>
+</dd>
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bytearray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sockets.service.Service.__recvall">
+<span class="sig-name descname"><span class="pre">__recvall</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sockets.service.Service.__recvall" title="Link to this definition">¶</a></dt>
+<dd><p>Приватный метод для получения сообщения из сокета.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>sock</strong> (<em>socket</em>) – Сокет для чтения сообщения.</p>
+</dd>
+<dt class="field-even">Результат<span class="colon">:</span></dt>
+<dd class="field-even"><p>Принятое сообщение.</p>
+</dd>
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bytearray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sockets.service.Service.__send_msg">
+<span class="sig-name descname"><span class="pre">__send_msg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sock</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sockets.service.Service.__send_msg" title="Link to this definition">¶</a></dt>
+<dd><p>Приватный метод для отправки сообщения через сокет.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sock</strong> (<em>socket</em>) – Сокет для отправки сообщения.</p></li>
+<li><p><strong>msg</strong> (<em>bytes</em>) – Сообщение, которое необходимо отправить.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Тип результата<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sockets.service.Service._abc_impl">
+<span class="sig-name descname"><span class="pre">_abc_impl</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;_abc._abc_data</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#sockets.service.Service._abc_impl" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sockets.service.Service._do_job">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_do_job</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sockets.service.Service._do_job" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sockets.service.Service._request_handler">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_request_handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sockets.service.Service._request_handler" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sockets.service.Service._run_client">
+<span class="sig-name descname"><span class="pre">_run_client</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ip</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">response_handler</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sockets.service.Service._run_client" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sockets.service.Service.pause">
+<span class="sig-name descname"><span class="pre">pause</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sockets.service.Service.pause" title="Link to this definition">¶</a></dt>
+<dd><p>Метод для приостановки выполнения задач сервиса.</p>
+<p>Устанавливает флаг, приостанавливающий обработку задач, но оставляет сервис в работающем состоянии.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sockets.service.Service.restart">
+<span class="sig-name descname"><span class="pre">restart</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sockets.service.Service.restart" title="Link to this definition">¶</a></dt>
+<dd><p>Метод для перезапуска сервиса.</p>
+<p>Останавливает текущий экземпляр сервиса и инициирует его заново.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sockets.service.Service.run_client">
+<span class="sig-name descname"><span class="pre">run_client</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ip</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">response_handler</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sockets.service.Service.run_client" title="Link to this definition">¶</a></dt>
+<dd><p>Защищенный метод для выполнения клиентского подключения и отправки запроса.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ip</strong> (<em>str</em>) – IP-адрес сервера для подключения.</p></li>
+<li><p><strong>port</strong> (<em>int</em>) – Порт сервера для подключения.</p></li>
+<li><p><strong>request</strong> (<em>str</em>) – Запрос для отправки на сервер.</p></li>
+<li><p><strong>response_handler</strong> (<em>Callable</em><em>[</em><em>[</em><em>str</em><em>]</em><em>, </em><em>None</em><em>]</em><em>, </em><em>optional</em>) – Функция обратного вызова для обработки ответа сервера, опциональный параметр.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Тип результата<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sockets.service.Service.start">
+<span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sockets.service.Service.start" title="Link to this definition">¶</a></dt>
+<dd><p>Метод для запуска сервиса.</p>
+<p>Инициализирует сервер, начинает прослушивание на заданном IP и порту, и запускает потоки для управления задачами и клиентами.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sockets.service.Service.stop">
+<span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sockets.service.Service.stop" title="Link to this definition">¶</a></dt>
+<dd><p>Метод для остановки сервиса.</p>
+<p>Закрывает сервер и устанавливает флаги для остановки обработки задач и клиентских запросов.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sockets.service.Service.unpause">
+<span class="sig-name descname"><span class="pre">unpause</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sockets.service.Service.unpause" title="Link to this definition">¶</a></dt>
+<dd><p>Метод для возобновления выполнения задач сервиса.</p>
+<p>Снимает флаг приостановки, позволяя возобновить обработку задач.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class" id="module-sockets.service_om">
+<dt class="sig sig-object py" id="sockets.service_om.ServiceOM">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sockets.service_om.</span></span><span class="sig-name descname"><span class="pre">ServiceOM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ip_</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port_</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_conn_</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sockets.service_om.ServiceOM" title="Link to this definition">¶</a></dt>
+<dd><p>Класс ServiceOM расширяет функциональность базового класса Service,
+предоставляя обработку видеопотока и построение карты препятсвий.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="sockets.service_om.ServiceOM.__specific_work">
+<span class="sig-name descname"><span class="pre">__specific_work</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame_rgb</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame_depth</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sockets.service_om.ServiceOM.__specific_work" title="Link to this definition">¶</a></dt>
+<dd><p>Приватный метод для выполнения специфической работы с кадрами.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>frame_rgb</strong> (<em>[</em><em>тип данных</em><em>]</em>) – Кадр в RGB формате.</p></li>
+<li><p><strong>frame_depth</strong> (<em>[</em><em>тип данных</em><em>]</em>) – Кадр с данными глубины.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Результат<span class="colon">:</span></dt>
+<dd class="field-even"><p>Результат специфической работы с кадрами.</p>
+</dd>
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sockets.service_om.ServiceOM._abc_impl">
+<span class="sig-name descname"><span class="pre">_abc_impl</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;_abc._abc_data</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#sockets.service_om.ServiceOM._abc_impl" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sockets.service_om.ServiceOM._do_job">
+<span class="sig-name descname"><span class="pre">_do_job</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sockets.service_om.ServiceOM._do_job" title="Link to this definition">¶</a></dt>
+<dd><p>Переопределенный метод, выполняющий основную работу сервиса.</p>
+<p>Включает в себя подключение к видеопотоку, обработку кадров и выполнение специализированных задач.
+В случае исключений, передает их в обработчик запросов.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Результат<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Результат обработки или строку с ошибкой.</p>
+</dd>
+<dt class="field-even">Тип результата<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sockets.service_om.ServiceOM._request_handler">
+<span class="sig-name descname"><span class="pre">_request_handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sockets.service_om.ServiceOM._request_handler" title="Link to this definition">¶</a></dt>
+<dd><p>Переопределенный метод для обработки входящих запросов.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>request</strong> (<em>str</em>) – Входящий запрос.</p>
+</dd>
+<dt class="field-even">Результат<span class="colon">:</span></dt>
+<dd class="field-even"><p>Ответ на запрос.</p>
+</dd>
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Obstacle map</a></h1>
+
+
+
+
+
+
+
+
+<h3>Навигация</h3>
+<p class="caption" role="heading"><span class="caption-text">Нужны для получения и отправления результатов в &quot;микросервисы&quot;</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Sockets</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#sockets.service.Service"><code class="docutils literal notranslate"><span class="pre">Service</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#sockets.service.Service.__manage_clients"><code class="docutils literal notranslate"><span class="pre">Service.__manage_clients()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sockets.service.Service.__recv_msg"><code class="docutils literal notranslate"><span class="pre">Service.__recv_msg()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sockets.service.Service.__recvall"><code class="docutils literal notranslate"><span class="pre">Service.__recvall()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sockets.service.Service.__send_msg"><code class="docutils literal notranslate"><span class="pre">Service.__send_msg()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sockets.service.Service._abc_impl"><code class="docutils literal notranslate"><span class="pre">Service._abc_impl</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sockets.service.Service._do_job"><code class="docutils literal notranslate"><span class="pre">Service._do_job()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sockets.service.Service._request_handler"><code class="docutils literal notranslate"><span class="pre">Service._request_handler()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sockets.service.Service._run_client"><code class="docutils literal notranslate"><span class="pre">Service._run_client()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sockets.service.Service.pause"><code class="docutils literal notranslate"><span class="pre">Service.pause()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sockets.service.Service.restart"><code class="docutils literal notranslate"><span class="pre">Service.restart()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sockets.service.Service.run_client"><code class="docutils literal notranslate"><span class="pre">Service.run_client()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sockets.service.Service.start"><code class="docutils literal notranslate"><span class="pre">Service.start()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sockets.service.Service.stop"><code class="docutils literal notranslate"><span class="pre">Service.stop()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sockets.service.Service.unpause"><code class="docutils literal notranslate"><span class="pre">Service.unpause()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#sockets.service_om.ServiceOM"><code class="docutils literal notranslate"><span class="pre">ServiceOM</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#sockets.service_om.ServiceOM.__specific_work"><code class="docutils literal notranslate"><span class="pre">ServiceOM.__specific_work()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sockets.service_om.ServiceOM._abc_impl"><code class="docutils literal notranslate"><span class="pre">ServiceOM._abc_impl</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sockets.service_om.ServiceOM._do_job"><code class="docutils literal notranslate"><span class="pre">ServiceOM._do_job()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sockets.service_om.ServiceOM._request_handler"><code class="docutils literal notranslate"><span class="pre">ServiceOM._request_handler()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="предыдущая глава">Документация по построению карты препятствий</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Быстрый поиск</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Искать" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, Eugene Ivanin, Kirill Blinov, Yulia Nesmeyanova.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.2.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="_sources/views.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

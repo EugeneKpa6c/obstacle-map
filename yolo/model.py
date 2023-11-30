@@ -2,14 +2,19 @@ import cv2
 import numpy as np
 
 class YOLOObjectDetector:
-    '''
-    Класс, который детектирует объекты на изображении (модель YOLO v3 Darknet, обучен на COCO 2017).
-    
-    Аргументы:
-        config_path: файл конфигураций для YOLO
-        weights_path: путь к весам модели
-    '''
+    """
+    Класс YOLOObjectDetector используется для детектирования объектов на изображении с помощью модели YOLO v3 Darknet,
+    обученной на наборе данных COCO 2017.
+
+    :param config_path: Путь к файлу конфигурации YOLO.
+    :type config_path: str
+    :param weights_path: Путь к весам модели YOLO.
+    :type weights_path: str
+    """
     def __init__(self, config_path, weights_path):
+        """
+        Инициализация YOLOObjectDetector с заданными конфигурацией и весами модели.
+        """
         self.net = cv2.dnn.readNetFromDarknet(config_path, weights_path)
         self.classes = ['person', 'bicycle', 'car', 'motorbike', 'airplane', 'bus', 'train', 'truck',
                         'boat', 'traffic light', 'fire hydrant', 'stop sign', 'parking meter', 'bench',
@@ -28,6 +33,14 @@ class YOLOObjectDetector:
                           'door', 'window', 'notebook', 'pen', 'speaker', 'board', 'professor', 'student']
 
     def detect(self, frame):
+        """
+        Метод для детектирования объектов на изображении.
+
+        :param frame: Изображение для детектирования объектов.
+        :type frame: np.ndarray
+        :return: Список результатов детектирования, включая координаты рамок и метки классов.
+        :rtype: list
+        """
         blob = cv2.dnn.blobFromImage(frame, 1 / 255, (416, 416), swapRB=True, crop=False)
         self.net.setInput(blob)
 

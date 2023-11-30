@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+
+<html lang="ru" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>SAM and map &#8212; документация Obstacle map </title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b3523f8e" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=039e1c02" />
+    <script src="_static/documentation_options.js?v=372fde1a"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/translations.js?v=29b1f277"></script>
+    <link rel="index" title="Алфавитный указатель" href="genindex.html" />
+    <link rel="search" title="Поиск" href="search.html" />
+    <link rel="prev" title="Sockets" href="sockets.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-show">
+<span id="sam-and-map"></span><h1>SAM and map<a class="headerlink" href="#module-show" title="Link to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="show.ShowResult">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">show.</span></span><span class="sig-name descname"><span class="pre">ShowResult</span></span><a class="headerlink" href="#show.ShowResult" title="Link to this definition">¶</a></dt>
+<dd><p>Предоставляет функциональность для объединения результатов сегментации изображения и анализа данных глубины.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="show.ShowResult.model">
+<span class="sig-name descname"><span class="pre">model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame_rgb</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frame_depth</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#show.ShowResult.model" title="Link to this definition">¶</a></dt>
+<dd><p>Метод для обработки RGB и глубинных кадров, генерации масок сегментации и анализа данных глубины.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>frame_rgb</strong> (<em>np.ndarray</em>) – RGB изображение для обработки.</p></li>
+<li><p><strong>frame_depth</strong> (<em>np.ndarray</em>) – Изображение глубины для анализа.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Результат<span class="colon">:</span></dt>
+<dd class="field-even"><p>Строка, содержащая объединенные данные X, Y координат и цветовых значений.</p>
+</dd>
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class" id="module-tools">
+<dt class="sig sig-object py" id="tools.DepthTools">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tools.</span></span><span class="sig-name descname"><span class="pre">DepthTools</span></span><a class="headerlink" href="#tools.DepthTools" title="Link to this definition">¶</a></dt>
+<dd><p>Класс DepthTools предназначен для работы с изображениями и данными глубины, включая визуализацию и анализ.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="tools.DepthTools.calculate_average_depth">
+<span class="sig-name descname"><span class="pre">calculate_average_depth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">masks</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tools.DepthTools.calculate_average_depth" title="Link to this definition">¶</a></dt>
+<dd><p>Метод для расчета средней глубины каждого объекта на карте глубины по маске.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>depth_input</strong> (<em>np.ndarray</em>) – Карта глубины или путь к изображению карты глубины.</p></li>
+<li><p><strong>masks</strong> (<em>list</em>) – Маски всех объектов на фрейме.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Результат<span class="colon">:</span></dt>
+<dd class="field-even"><p>Список средних глубин и других связанных данных для каждого объекта.</p>
+</dd>
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tools.DepthTools.draw_annotations">
+<span class="sig-name descname"><span class="pre">draw_annotations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">annotations</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.35</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tools.DepthTools.draw_annotations" title="Link to this definition">¶</a></dt>
+<dd><p>Метод для отрисовки аннотаций на изображении.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>image</strong> (<em>np.ndarray</em>) – Изображение, на котором будут отрисованы аннотации.</p></li>
+<li><p><strong>annotations</strong> (<em>list</em>) – Список аннотаций для отрисовки.</p></li>
+<li><p><strong>alpha</strong> (<em>float</em><em>, </em><em>optional</em>) – Прозрачность аннотаций.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Результат<span class="colon">:</span></dt>
+<dd class="field-even"><p>Изображение с наложенными аннотациями.</p>
+</dd>
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tools.DepthTools.draw_depth_map">
+<span class="sig-name descname"><span class="pre">draw_depth_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_depth</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tools.DepthTools.draw_depth_map" title="Link to this definition">¶</a></dt>
+<dd><p>Метод для рисования карты препятствий на основе данных о глубине и координатах объектов.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>frame</strong> (<em>np.ndarray</em>) – Исходное изображение.</p></li>
+<li><p><strong>result</strong> (<em>list</em>) – Список словарей с данными об объектах.</p></li>
+<li><p><strong>image_width</strong> (<em>int</em>) – Ширина исходного изображения.</p></li>
+<li><p><strong>max_depth</strong> (<em>int</em>) – Максимальное значение глубины для нормализации.</p></li>
+<li><p><strong>show</strong> (<em>bool</em><em>, </em><em>optional</em>) – Флаг для отображения графика.</p></li>
+<li><p><strong>save</strong> (<em>bool</em><em>, </em><em>optional</em>) – Флаг для сохранения графика.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Результат<span class="colon">:</span></dt>
+<dd class="field-even"><p>Визуализация карты препятствий, координаты X и Y, цвета.</p>
+</dd>
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tools.DepthTools.show_anns">
+<span class="sig-name descname"><span class="pre">show_anns</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tools.DepthTools.show_anns" title="Link to this definition">¶</a></dt>
+<dd><p>Метод для отображения аннотаций на изображении.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>anns</strong> (<em>list</em>) – Список аннотаций для визуализации.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tools.DepthTools.show_contours">
+<span class="sig-name descname"><span class="pre">show_contours</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">contours</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tools.DepthTools.show_contours" title="Link to this definition">¶</a></dt>
+<dd><p>Метод для отображения контуров на RGB изображении.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>image_rgb</strong> (<em>np.ndarray</em>) – RGB изображение для визуализации контуров.</p></li>
+<li><p><strong>contours</strong> (<em>list</em>) – Список контуров для отображения.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Тип результата<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class" id="module-auto_mask">
+<dt class="sig sig-object py" id="auto_mask.SamSegmentation">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">auto_mask.</span></span><span class="sig-name descname"><span class="pre">SamSegmentation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'vit_h'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">checkpoint_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_area</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">500</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#auto_mask.SamSegmentation" title="Link to this definition">¶</a></dt>
+<dd><p>Класс SamSegmentation обеспечивает сегментацию изображений с использованием модели SAM (Segment Anything Model).</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="auto_mask.SamSegmentation.segment_image">
+<span class="sig-name descname"><span class="pre">segment_image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#auto_mask.SamSegmentation.segment_image" title="Link to this definition">¶</a></dt>
+<dd><p>Метод для сегментации изображения.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Параметры<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>image</strong> (<em>np.ndarray</em>) – Изображение для сегментации.</p>
+</dd>
+<dt class="field-even">Результат<span class="colon">:</span></dt>
+<dd class="field-even"><p>Список масок, где каждая маска представляет собой словарь с данными о сегментированной области.</p>
+</dd>
+<dt class="field-odd">Тип результата<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Obstacle map</a></h1>
+
+
+
+
+
+
+
+
+<h3>Навигация</h3>
+<p class="caption" role="heading"><span class="caption-text">Нужны для получения и отправления результатов в &quot;микросервисы&quot;</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="sockets.html">Sockets</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Делаем сегментацию снимка при помощи SAM и строим карту препятствий</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">SAM and map</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#show.ShowResult"><code class="docutils literal notranslate"><span class="pre">ShowResult</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#show.ShowResult.model"><code class="docutils literal notranslate"><span class="pre">ShowResult.model()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#tools.DepthTools"><code class="docutils literal notranslate"><span class="pre">DepthTools</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#tools.DepthTools.calculate_average_depth"><code class="docutils literal notranslate"><span class="pre">DepthTools.calculate_average_depth()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tools.DepthTools.draw_annotations"><code class="docutils literal notranslate"><span class="pre">DepthTools.draw_annotations()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tools.DepthTools.draw_depth_map"><code class="docutils literal notranslate"><span class="pre">DepthTools.draw_depth_map()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tools.DepthTools.show_anns"><code class="docutils literal notranslate"><span class="pre">DepthTools.show_anns()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tools.DepthTools.show_contours"><code class="docutils literal notranslate"><span class="pre">DepthTools.show_contours()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#auto_mask.SamSegmentation"><code class="docutils literal notranslate"><span class="pre">SamSegmentation</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#auto_mask.SamSegmentation.segment_image"><code class="docutils literal notranslate"><span class="pre">SamSegmentation.segment_image()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Детекция объектов по классам живое/не живое</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">SAM and map</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#show.ShowResult"><code class="docutils literal notranslate"><span class="pre">ShowResult</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#show.ShowResult.model"><code class="docutils literal notranslate"><span class="pre">ShowResult.model()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#tools.DepthTools"><code class="docutils literal notranslate"><span class="pre">DepthTools</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#tools.DepthTools.calculate_average_depth"><code class="docutils literal notranslate"><span class="pre">DepthTools.calculate_average_depth()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tools.DepthTools.draw_annotations"><code class="docutils literal notranslate"><span class="pre">DepthTools.draw_annotations()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tools.DepthTools.draw_depth_map"><code class="docutils literal notranslate"><span class="pre">DepthTools.draw_depth_map()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tools.DepthTools.show_anns"><code class="docutils literal notranslate"><span class="pre">DepthTools.show_anns()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tools.DepthTools.show_contours"><code class="docutils literal notranslate"><span class="pre">DepthTools.show_contours()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#auto_mask.SamSegmentation"><code class="docutils literal notranslate"><span class="pre">SamSegmentation</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#auto_mask.SamSegmentation.segment_image"><code class="docutils literal notranslate"><span class="pre">SamSegmentation.segment_image()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="sockets.html" title="предыдущая глава">Sockets</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Быстрый поиск</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Искать" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, NUST MISIS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.2.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="_sources/sam_and_model.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -7,7 +7,16 @@ from yolo.model import YOLOObjectDetector
 mask_colors = {}
 
 class DepthTools:
-    def show_anns(anns):
+    """
+    Класс DepthTools предназначен для работы с изображениями и данными глубины, включая визуализацию и анализ.
+    """
+    def show_anns(anns: list):
+        """
+        Метод для отображения аннотаций на изображении.
+
+        :param anns: Список аннотаций для визуализации.
+        :type anns: list
+        """
         if len(anns) == 0:
             return
         sorted_anns = sorted(anns, key=(lambda x: x['area']), reverse=True)
@@ -21,10 +30,20 @@ class DepthTools:
             color_mask = np.concatenate([np.random.random(3), [0.35]])
             img[m] = color_mask
         ax.imshow(img)
-        # plt.close()
-        # return img
     
-    def draw_annotations(image, annotations, alpha=0.35):
+    def draw_annotations(image: np.ndarray, annotations: list, alpha=0.35) -> np.ndarray:
+        """
+        Метод для отрисовки аннотаций на изображении.
+
+        :param image: Изображение, на котором будут отрисованы аннотации.
+        :type image: np.ndarray
+        :param annotations: Список аннотаций для отрисовки.
+        :type annotations: list
+        :param alpha: Прозрачность аннотаций.
+        :type alpha: float, optional
+        :return: Изображение с наложенными аннотациями.
+        :rtype: np.ndarray
+        """
         global mask_colors
 
         if len(annotations) == 0:
@@ -34,12 +53,7 @@ class DepthTools:
         image_with_annotations = image.copy()
 
         sorted_anns = sorted(annotations, key=(lambda x: x['area']), reverse=True)
-        # print(sorted_anns)
-        # for ann in sorted_anns:
-        #     mask = ann['segmentation']
-        #     color_mask = np.random.randint(0, 256, 3)  # Создаем случайный цвет
-        #     image_with_annotations[mask] = (alpha * color_mask + (1 - alpha) * image_with_annotations[mask]).astype(np.uint8)
-        # return image_with_annotations
+
         for i, ann in enumerate(sorted_anns):
             mask_id = i  # Используем индекс маски в списке как уникальный идентификатор
             if mask_id not in mask_colors:
@@ -51,7 +65,15 @@ class DepthTools:
 
         return image_with_annotations
 
-    def show_contours(image_rgb, contours):
+    def show_contours(image_rgb: np.ndarray, contours: list) -> list:
+        """
+        Метод для отображения контуров на RGB изображении.
+
+        :param image_rgb: RGB изображение для визуализации контуров.
+        :type image_rgb: np.ndarray
+        :param contours: Список контуров для отображения.
+        :type contours: list
+        """
         plt.figure(figsize=(20, 20))
         plt.imshow(image_rgb)
         
@@ -66,14 +88,17 @@ class DepthTools:
         plt.show()
         plt.close()
 
-    def calculate_average_depth(depth_input, masks):
-        '''
-        Считаем среднее значение глубины для каждого объета на карте глубины по маске
+    def calculate_average_depth(depth_input: np.ndarray, masks: list) -> list:
+        """
+        Метод для расчета средней глубины каждого объекта на карте глубины по маске.
 
-        Аргументы:
-            depth_input (str/np.ndarray): Путь к фрейму карты глубины или массив numpy с изображением
-            masks (list): Маски всех объектов на фрейме
-        '''
+        :param depth_input: Карта глубины или путь к изображению карты глубины.
+        :type depth_input: np.ndarray
+        :param masks: Маски всех объектов на фрейме.
+        :type masks: list
+        :return: Список средних глубин и других связанных данных для каждого объекта.
+        :rtype: list
+        """
 
         if isinstance(depth_input, str):
             depth_map = cv2.imread(depth_input, cv2.IMREAD_UNCHANGED)
@@ -123,50 +148,36 @@ class DepthTools:
 
         return result
     
-    def draw_depth_map(frame, result, image_width, max_depth, show=True, save=False):
+    def draw_depth_map(frame: np.ndarray, result: list, image_width: int, max_depth: int, show=True, save=False):
         """
-        Рисуем карту препятсвий на основе данных о глубине и координатах объектов.
+        Метод для рисования карты препятствий на основе данных о глубине и координатах объектов.
 
-        Аргументы:
-            result: Список словарей, каждый из которых содержит данные об объекте
-            image_width: Ширина исходного изображения
-            max_depth: Максимальное значение глубины для нормализации
+        :param frame: Исходное изображение.
+        :type frame: np.ndarray
+        :param result: Список словарей с данными об объектах.
+        :type result: list
+        :param image_width: Ширина исходного изображения.
+        :type image_width: int
+        :param max_depth: Максимальное значение глубины для нормализации.
+        :type max_depth: int
+        :param show: Флаг для отображения графика.
+        :type show: bool, optional
+        :param save: Флаг для сохранения графика.
+        :type save: bool, optional
+        :return: Визуализация карты препятствий, координаты X и Y, цвета.
+        :rtype: tuple
         """
         detector = YOLOObjectDetector('yolo/yolo_w/yolov3.cfg', 'yolo/yolo_w/yolov3.weights')
         detections = detector.detect(frame)
         plt.figure(figsize=(10, 5))
-        
-        # for obj in result:
-        #     if obj['left_most_point'] is not None and obj['right_most_point'] is not None:
-        #         x = [obj['left_most_point'], obj['right_most_point']]
-        #         # y = [obj['average_depth'], obj['average_depth']]
-        #         y = [5 - (255 - obj['average_depth']) * 4 / 255, 5 - (255 - obj['average_depth']) * 4 / 255]
-        #         plt.plot(x, y, linewidth=5)
 
-        # if show == True:
-        #     plt.xlim(0, image_width)
-        #     plt.ylim(0, max_depth)
-        #     # plt.gca().invert_yaxis()  # Инвертирование оси Y, чтобы глубина увеличивалась вниз
-        #     plt.xlabel('Позиция по оси X')
-        #     plt.ylabel('Глубина')
-        #     plt.title('Карта глубины')
-        #     plt.grid(True)
-        #     plt.show()
-        #     plt.close()
-
-        # if save == True:
-        #     buf = io.BytesIO()
-        #     plt.savefig(buf, format='png')
-        #     buf.seek(0)
-        #     img_arr = np.frombuffer(buf.getvalue(), dtype=np.uint8)
-        #     buf.close()
-        #     vis_img = cv2.imdecode(img_arr, 1)
-        #     plt.close()
-        #     return vis_img
+        x_plot, y_plot, clr = [], [], []
         for obj in result:
             if obj['left_most_point'] is not None and obj['right_most_point'] is not None:
                 x = [obj['left_most_point'], obj['right_most_point']]
                 y = [5 - (255 - obj['average_depth']) * 4 / 255, 5 - (255 - obj['average_depth']) * 4 / 255]
+                x_plot.append(x)
+                y_plot.append(y)
 
                 # Проверяем, попадает ли 'x' полностью в какой-либо 'box' обнаруженный YOLO
                 in_living_box = False
@@ -174,6 +185,7 @@ class DepthTools:
                     if detection['label'] == 'living':
                         box_x1, box_y1, box_w, box_h = detection['box']
                         box_x2 = box_x1 + box_w
+
                         # Проверяем, что левая и правая точки находятся внутри области бокса
                         if box_x1 <= obj['left_most_point'] and box_x2 >= obj['right_most_point']:
                             in_living_box = True
@@ -181,6 +193,7 @@ class DepthTools:
 
                 # Выбираем цвет на основе сопоставления с детекцией YOLO
                 color = 'red' if in_living_box else 'grey'
+                clr.append(color)
                 plt.plot(x, y, linewidth=5, color=color)
 
         if show:
@@ -201,4 +214,4 @@ class DepthTools:
             buf.close()
             vis_img = cv2.imdecode(img_arr, 1)
             plt.close()
-            return vis_img
+            return vis_img, x_plot, y_plot, clr
